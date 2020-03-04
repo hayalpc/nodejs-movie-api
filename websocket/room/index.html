@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket</title>
+</head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script>
+    $(()=>{
+        const socket = io.connect('http://localhost:3000',{
+            reconnectionAttemps:2,
+            rconnectionDelat:500,
+            reconnection:false
+
+        });
+
+
+        $("#btn").on('click',()=>{
+            let name = $("#name").val();
+            socket.emit('joinRoom',{name:name});
+        });
+
+        socket.on('new-join',()=>{
+            $(".message").append('Birisi odaya girdi<br>');
+        });
+    });
+
+</script>
+<body>
+Broadcast:<br>
+
+<input id="name">
+<button id="btn" type="button">Bağlan</button><br>
+<div class="message"></div>
+</body>
+</html>
